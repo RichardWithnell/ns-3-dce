@@ -97,10 +97,16 @@ int dce_mkstemp (char *temp)
 
   std::string fullpath = UtilsGetRealFilePath (temp);
   NS_LOG_FUNCTION (fullpath);
-  int realFd = mkstemp ((char *)fullpath.c_str ());
+
+  char* c_fullpath = new char[fullpath.length()+1];
+  fullpath.copy(c_fullpath, fullpath.length());
+  c_fullpath[fullpath.length()] = '\0';
+
+  int realFd = mkstemp (c_fullpath);
   if (realFd == -1)
     {
       current->err = errno;
+      delete c_fullpath;
       return -1;
     }
 
@@ -108,19 +114,23 @@ int dce_mkstemp (char *temp)
   if (fd == -1)
     {
       current->err = EMFILE;
+      delete c_fullpath;
       return -1;
     }
   UnixFd *unixFd = 0;
   unixFd = new UnixFileFd (realFd);
   unixFd->IncFdCount ();
   current->process->openFiles[fd] = new FileUsage (fd, unixFd);
+
+  strncpy(temp, &c_fullpath[strlen(c_fullpath)-strlen(temp)], strlen(temp));
+  delete c_fullpath;
   return fd;
 }
 
-FILE * dce_tmpfile (void)
+FILE * dce_tmpfile(void)
 {
-  int fd = dce_mkstemp ((char *)"temp");
-  return dce_fdopen (fd, "w+");
+  int fd = dce_mkstemp ("temp");
+  return dce_fdopen(fd, "w+");
 }
 
 int dce_rename (const char *oldpath, const char *newpath)
