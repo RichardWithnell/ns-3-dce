@@ -599,6 +599,7 @@ DCE    (__vfprintf_chk)
 DCE    (__fprintf_chk)
 DCE    (__snprintf_chk)
 DCE    (__errno_location)
+DCE    (__h_errno_location)
 DCE    (__vsnprintf_chk)
 
 DCE    (__xstat)
