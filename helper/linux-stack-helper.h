@@ -130,6 +130,15 @@ public:
    * \param str a string for the command line argument of ip command. e.g., "route add 10.0.1.0/24 via 10.0.0.1"
    */
   static void RunIp (Ptr<Node> node, Time at, std::string str);
+  
+  /**
+   * Execute "xtables-multi iptables" command (of Linux) on a specific node to configure the iptables.
+   *
+   * \param node The node pointer Ptr<Node> to configure.
+   * \param at the delta from the begining of simulation to execute this command.
+   * \param str a string for the command line argument of iptables command. e.g., "iptables -A INPUT -s 10.0.0.1 -j DROP"
+   */
+  static void RunIptables (Ptr<Node> node, Time at, std::string str);
 
 private:
   void Initialize ();

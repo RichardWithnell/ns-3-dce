@@ -118,6 +118,22 @@ LinuxStackHelper::PopulateRoutingTables ()
 }
 
 void
+LinuxStackHelper::RunIptables (Ptr<Node> node, Time at, std::string str)
+{
+#ifdef KERNEL_STACK
+  DceApplicationHelper process;
+  ApplicationContainer apps;
+  process.SetBinary ("xtables-multi");
+  process.SetStackSize (1 << 16);
+  process.ResetArguments ();
+  std::string iptables_cmd = "iptables " + str;
+  process.ParseArguments (iptables_cmd.c_str ());
+  apps = process.Install (node);
+  apps.Start (at);
+#endif
+}
+
+void
 LinuxStackHelper::RunIp (Ptr<Node> node, Time at, std::string str)
 {
 #ifdef KERNEL_STACK
