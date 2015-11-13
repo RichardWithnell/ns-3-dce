@@ -2,6 +2,7 @@
 #include "dce-application.h"
 #include "ns3/log.h"
 #include <stdarg.h>
+#include "utils.h"
 
 NS_LOG_COMPONENT_DEFINE ("DceApplicationHelper");
 
@@ -154,6 +155,12 @@ DceApplicationHelper::InstallInNode (Ptr<Node> node)
         {
           dce->SetFinishedCallback (m_finishedCallback);
         }
+
+      std::stringstream oss;
+      oss << "files-" << node->GetId () << "/tmp/";
+      UtilsEnsureAllDirectoriesExist (oss.str ());
+
+
       node->AddApplication (dce);
       apps.Add (dce);
 
@@ -181,6 +188,11 @@ DceApplicationHelper::Install (NodeContainer c)
         }
       (*j)->AddApplication (dce);
       apps.Add (dce);
+    
+      std::stringstream oss;
+      oss << "files-" << (*j)->GetId () << "/tmp/";
+      UtilsEnsureAllDirectoriesExist (oss.str ());
+
     }
   return apps;
 }

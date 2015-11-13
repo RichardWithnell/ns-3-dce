@@ -691,6 +691,7 @@ def build(bld):
         'helper/ccn-client-helper.cc',
         'helper/linux-stack-helper.cc',
         'helper/freebsd-stack-helper.cc',
+        'helper/mpdd-helper.cc',
         ]
     module_headers = [
         'model/dce-manager.h',
@@ -722,6 +723,7 @@ def build(bld):
         'helper/ipv4-dce-routing-helper.h',
         'helper/linux-stack-helper.h',
         'helper/freebsd-stack-helper.h',
+        'helper/mpdd-helper.h',
         ]
 
     module_source = module_source + kernel_source
